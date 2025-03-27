@@ -17,17 +17,12 @@ jobs:
       - name: Set Up Python # Sets up our python env
         uses: actions/setup-python@v2
         with: 
-          python-version: '3.11'
-
-      - name: Install AWS CLI  
-        run: |
-          sudo apt update
-          sudo apt install -y awscli
+          python-version: '3.12'
 
       - name: Install dependencies # Installs any packages
         runs: |
           python -m pip install --upgrade pip
-          pip install -r lambda/requirements.txt -t lambda/
+          pip install -r lambda/requirements.txt -t package/
 
       - name: Configure AWS credentials # Sets up AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -38,6 +33,10 @@ jobs:
       
       - name: Deploy to AWS Lambda # Zips lambda directory and updates lambda function
         run: |
+          cd package
+          zip -r ../lambda.zip .
+          cd ..
           cd lambda
-          zip -r lambda.zip .
+          zip -r ../lambda.zip .
+          cd ..
           aws lambda update-function-code --function-name my-test-cicd-lambda --zip-file fileb://lambda.zip
