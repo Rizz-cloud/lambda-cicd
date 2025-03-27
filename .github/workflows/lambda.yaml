@@ -12,12 +12,17 @@ jobs:
   deploy-lambda: # name of our job
     runs-on: ubuntu-latest # sets or specifies the runner 
     steps: 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set Up Python # Sets up our python env
         uses: actions/setup-python@v2
         with: 
           python-version: '3.12'
+
+      - name: Install AWS CLI  
+        run: |
+          sudo apt update
+          sudo apt install -y awscli
 
       - name: Install dependencies # Installs any packages
         runs: |
