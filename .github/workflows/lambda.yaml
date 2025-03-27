@@ -19,20 +19,20 @@ jobs:
         with: 
           python-version: '3.12'
 
-      - name: Install Dependencies # Installs any packages
+      - name: Install dependencies # Installs any packages
         runs: |
           python -m pip install --upgrade pip
-          pip install -r lambda/requirements.txt -t lambda
+          pip install -r lambda/requirements.txt -t lambda/
 
-      - name: Configure AWS Creds # Sets up AWS Credentials
+      - name: Configure AWS credentials # Sets up AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: eu-west-2
       
-      - name: Deploy Lambda Function # Zips lambda directory and updates lambda function
+      - name: Deploy to AWS Lambda # Zips lambda directory and updates lambda function
         run: |
           cd lambda
           zip -r lambda.zip .
-          aws lamda update-function-code --function-name my-test-cicd-lambda --zip-file fileb://lambda.zip
+          aws lambda update-function-code --function-name my-test-cicd-lambda --zip-file fileb://lambda.zip
