@@ -46,6 +46,7 @@ jobs:
                     
                     })
 
+                    
     cleanup-on-merge:
         runs-on: ubuntu-latest
         if: github.event.pull_request.merged == true
@@ -60,4 +61,5 @@ jobs:
             - name: Delete Test Stack
               run: |
                 stack_name="pr-test-stack-${{github.event.pull_request.number}}"
+                echo "deleting stack $stack_name"
                 aws cloudformation delete-stack --stack-name $stack_name
