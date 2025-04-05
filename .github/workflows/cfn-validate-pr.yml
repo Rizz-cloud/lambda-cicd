@@ -46,6 +46,13 @@ jobs:
                     
                     })
 
+name: Cleanup after merge
+
+on:
+    pull_request:
+        types: [closed] 
+
+Jobs: 
     cleanup-on-merge:
         runs-on: ubuntu-latest
         if: github.event.pull_request.merged == true
